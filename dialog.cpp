@@ -1,57 +1,31 @@
+//dialog.cpp
+
 #include "dialog.h"
 #include "ui_dialog.h"
 
+// Constructor for the Dialog class
 Dialog::Dialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::Dialog)
 {
+    // Sets up the user interface from the .ui file
     ui->setupUi(this);
 
+    // Create a new QStringListModel instance
     model = new QStringListModel(this);
 
+    // Initialize a QStringList to store the items
     QStringList list;
 
+    // Add some example items to the list
     list << "cats" << "dogs" << "birds";
-    model -> setStringList(list);
 
+    // Set the model's string list with the items
+    model->setStringList(list);
+
+    // Set the model for the listView and comboBox widgets
     ui->listView->setModel(model);
     ui->comboBox->setModel(model);
 
-    ui->listView->setEditTriggers(QAbstractItemView::AnyKeyPressed | QAbstractItemView::DoubleClicked);
-}
-
-Dialog::~Dialog()
-{
-    delete ui;
-}
-
-void Dialog::on_pushButton_clicked()
-{
-    // add
-    int row = model->rowCount();
-    model->insertRows(row,1);
-
-    QModelIndex index = model-> index(row);
-    ui->listView->setCurrentIndex(index);
-    ui->listView->edit(index);
-}
-
-
-void Dialog::on_pushButton_2_clicked()
-{
-    // insert
-    int row = ui->listView->currentIndex().row();
-    model->insertRows(row,1);
-
-    QModelIndex index = model-> index(row);
-    ui->listView->setCurrentIndex(index);
-    ui->listView->edit(index);
-}
-
-
-void Dialog::on_pushButton_3_clicked()
-{
-    // delete
-    model->removeRows(ui->listView->currentIndex().row(),1);
-}
-
+    // Enable editing in the listView by pressing any key or double-clicking an item
+    ui->listView->setEditTriggers(QAbstractItemView::AnyKeyPressed | QAbstractItemView::
